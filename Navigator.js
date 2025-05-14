@@ -15,16 +15,14 @@ export default function AppNavigator() {
           headerShown: false,
           tabBarIcon: ({ color, size }) => {
             let iconName;
-
             if (route.name === 'Home') iconName = 'person-outline';
-            else if (route.name === 'Sveglie e utenze') iconName = 'alarm-outline';
-
+            else if (route.name === 'Gestione sveglie') iconName = 'alarm-outline';
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Sveglie e utenze" component={SetAlarm} />
+        <Tab.Screen name="Gestione sveglie" component={SetAlarm} />
       </Tab.Navigator>
     </NavigationContainer>
   );

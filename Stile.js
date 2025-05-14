@@ -32,8 +32,18 @@ const style = StyleSheet.create({
   },
   riga:{
     flexDirection:'row', 
-    columnGap:20
-  }
+    columnGap:20,
+    flex:1
+  },
+  input:{
+    borderColor:'#2b2d42',
+    borderRadius: 19, 
+    backgroundColor:'#dcdcdc',
+    borderWidth: 1,
+    padding: 8, 
+    marginVertical: 8, 
+    height:50,
+  },
 });
 
 export default style;
