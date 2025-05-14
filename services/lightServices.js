@@ -1,4 +1,4 @@
-const SERVER_URL = '3000/publish'; // da inserire ip del pc su cui gira nodered
+const SERVER_URL = 'http://172.19.135.127:3000/publish'; // indirizzo ip di node red
 
 const sendMQTTMessage = async (value) => {
   try {

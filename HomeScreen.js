@@ -10,11 +10,14 @@ const HomeScreen=()=>{
   const [isEnabled, setIsEnabled]= useState(false);
   const toggleSwitch=()=> setIsEnabled (prevState => { 
     const newstate=!prevState; 
+    console.log("fatto");
       if (newstate){
         accendiLuci();
+        console.log("fattoacceso");
       }
       else{
         spegniLuci();
+        console.log("fattoacceso");
       }
       return newstate; 
     });

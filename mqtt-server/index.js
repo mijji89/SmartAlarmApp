@@ -4,7 +4,7 @@ const mqtt = require('mqtt');
 const cors = require('cors');
 
 
-const mqttClient = mqtt.connect('mqtt://test.mosquitto.org');
+const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883');
 
 mqttClient.on('connect', () => {
   console.log('✅ Connesso al broker MQTT');
