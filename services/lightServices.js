@@ -1,36 +1,41 @@
-const SERVER_URL = 'http://172.19.135.127:3000/publish'; // indirizzo ip di node red
+import mqtt from 'mqtt';
+const client = mqtt.connect('ws://192.168.1.3:9001');
 
-const sendMQTTMessage = async (value) => {
-  try {
-    const response = await fetch(SERVER_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        topic: 'sveglia/luci',
-        message: value.toString(),
-      }),
+client.on('connect',()=>{
+  console.log("Connesso a MQTT broker");
+})
+
+client.on('error',(err)=>{
+  console.error('Errore MQTT',err);
+})
+
+client.on('reconnect', () => {
+  console.log(' Riconnessione in corso...');
+});
+
+const sendMQTTMessage = (value) => {
+  const topic = 'sveglia/luci';
+  const message = value.toString();
+
+  if (client.connected) {
+    client.publish(topic, message, (err) => {
+      if (err) {
+        console.error('Errore durante la pubblicazione MQTT:', err);
+      } else {
+        console.log(`Messaggio inviato su ${topic}: ${message}`);
+      }
     });
-
-    const data = await response.json();
-    if (data.status === 'ok') {
-      console.log(`Messaggio inviato: ${value}`);
-    } else {
-      console.error('Errore nella risposta del server:', data);
-    }
-  } catch (error) {
-    console.error('Errore durante la richiesta:', error);
+  } else {
+    console.warn('MQTT non connesso, messaggio non inviato');
   }
 };
 
-const spegniLuci= () => {
+const spegniLuci = () => {
   sendMQTTMessage(0);
 };
-
 
 const accendiLuci = () => {
   sendMQTTMessage(1);
 };
 
-export {accendiLuci,spegniLuci};
+export { accendiLuci, spegniLuci };
