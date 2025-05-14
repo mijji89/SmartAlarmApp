@@ -4,10 +4,11 @@ const mqtt = require('mqtt');
 const cors = require('cors');
 
 
-const mqttClient = mqtt.connect('mqtt://broker.hivemq.com:1883');
+const mqttClient = mqtt.connect("mqtts://broker.emqx.io:8883");
 
 mqttClient.on('connect', () => {
   console.log('✅ Connesso al broker MQTT');
+  client.publish("sveglia/luci");
 });
 
 const app = express();
