@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView,StyleSheet, Text, View, Button, FlatList, Switch, SafeAreaView,Image} from 'react-native';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
 import style from './Stile.js';
 import { accendiLuci, spegniLuci } from './services/lightServices.js'; // Usa il percorso corretto
-
+import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices.js';
 
 const HomeScreen=()=>{
   const [isEnabled, setIsEnabled]= useState(false);
@@ -23,17 +23,17 @@ const HomeScreen=()=>{
     });
     const [isEnabled2, setIsEnabled2]= useState(false);
     const toggleSwitch2=()=> setIsEnabled2 (prevState => { 
-    const newstate=!prevState; 
-      if (newstate){
-        //accendiLuci();
-      }
-      else{
-        //spegniLuci();
-      }
-      return newstate; 
+      return newstate=!prevState; 
     });
 
-    
+    const [temperatura, setTemperatura] = useState(null);
+    const [umidita, setUmidita] = useState(null);
+
+    useEffect(() => {
+      onTemperaturaChange(val => setTemperatura(val));
+      onUmiditaChange(val => setUmidita(val));
+    }, []);
+
   return(
     <ScrollView>
     <SafeAreaView style={style.body}>
@@ -57,10 +57,10 @@ const HomeScreen=()=>{
       </View>
       <Text style={style.title}>La mia stanza: </Text>
       <View style={{flexDirection:'row', columnGap:20}}>
-        <Text style={style.subtitle}>Temperatura attuale:</Text>
+        <Text style={style.subtitle}>Temperatura attuale: {temperatura !== null ? `${temperatura}°C` : '---'}</Text>
       </View>
       <View style={style.riga}>
-        <Text style={style.subtitle}>Umidità attuale:</Text>
+        <Text style={style.subtitle}>Umidità attuale: {umidita !== null ? `${umidita}%` : '---'}</Text>
       </View>
     </SafeAreaView>
     </ScrollView>
