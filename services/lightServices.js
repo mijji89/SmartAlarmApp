@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.1.3:9001');
+const client = mqtt.connect('ws://192.168.153.69:9001');
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
