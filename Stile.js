@@ -8,7 +8,7 @@ const style = StyleSheet.create({
   },
   prinsubtitle:{
     fontSize:17,
-    fontWeight:'normal', 
+    fontWeight:'bold', 
     color: '#808080',
     padding:10,
   },
@@ -44,6 +44,23 @@ const style = StyleSheet.create({
     marginVertical: 8, 
     height:50,
   },
+  item:{
+        backgroundColor: 'lightblue',
+        padding: 15,
+        borderRadius: 10,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20
+  },
+  itemTitle:{
+     maxWidth: '80%',
+     fontWeight: 'bold',
+  },
+  itemText:{
+      maxWidth: '80%',
+  },
+
 });
 
 export default style;
