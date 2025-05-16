@@ -48,8 +48,8 @@ import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices
       </View>
       <Text style={style.prinsubtitle}>Premere per aprire/chiudere la serranda:</Text>
       <View style={{flexDirection:'row', columnGap:20}}>
-          <Switch trackColor={{ false: 'black', true:'lightgreen'}} onValueChange={toggleSwitch2} value={isEnabled2} />
-          <Text style={style.subtitle}>{isEnabled2? '🏞️Serranda aperta': 'Serranda chiusa🪟'}</Text>
+          
+          
         </View>
       <Text style={style.title}>Sveglie attive:</Text>
       <View style={style.alarmlist}>
