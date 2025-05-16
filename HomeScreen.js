@@ -6,25 +6,24 @@ import style from './Stile.js';
 import { accendiLuci, spegniLuci } from './services/lightServices.js'; // Usa il percorso corretto
 import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices.js';
 
-const HomeScreen=()=>{
-  const [isEnabled, setIsEnabled]= useState(false);
-  const toggleSwitch=()=> setIsEnabled (prevState => { 
-    const newstate=!prevState; 
-    console.log("fatto");
-      if (newstate){
-        accendiLuci();
-        console.log("fattoacceso");
-      }
-      else{
-        spegniLuci();
-        console.log("fattoacceso");
-      }
-      return newstate; 
+  const HomeScreen=()=>{
+    const [isEnabled, setIsEnabled]= useState(false);
+    const toggleSwitch = () => {
+    setIsEnabled(prevState => {
+      const newState = !prevState;
+      return newState;
     });
-    const [isEnabled2, setIsEnabled2]= useState(false);
-    const toggleSwitch2=()=> setIsEnabled2 (prevState => { 
-      return newstate=!prevState; 
-    });
+  };
+
+  useEffect(() => {
+    if (isEnabled) {
+      accendiLuci();
+      console.log("fatto acceso");
+    } else {
+      spegniLuci();
+      console.log("fatto spento");
+    }
+  }, [isEnabled]);
 
     const [temperatura, setTemperatura] = useState(null);
     const [umidita, setUmidita] = useState(null);
