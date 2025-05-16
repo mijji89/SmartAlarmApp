@@ -4,18 +4,20 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState, useContext, useEffect} from 'react';
 import style from './Stile.js';
 import { AlarmContext } from './Alarm.js';
-import { accendiLuci, spegniLuci } from './services/lightServices.js';
+import { inviaSuoneria1, inviaSuoneria2, inviaDataAnno, inviaDataMese, inviaDataGiorno, inviaMinuti, inviaOra, inviaID, spegniLuciSveglia, accendiLuciSveglia } from './services/alarmServices.js';
+
 
 const SetAlarm=()=>{
-  const [pressed, setIsEnabled1]= useState(false);
   const {addAlarm}= useContext(AlarmContext);
   const [alarmname,setInput]= useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [nextID, setnextID]= useState(1); 
 
-    const onDateChange = (event, selectedDate) => {
-    setShowDatePicker(Platform.OS === 'ios'); 
+//Permette di selezionare una data giorno/mese/anno
+  const onDateChange = (event, selectedDate) => {
+  setShowDatePicker(Platform.OS === 'ios'); 
     if (selectedDate) {
       const updatedDate = new Date(date);
       updatedDate.setFullYear(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
@@ -23,6 +25,7 @@ const SetAlarm=()=>{
     }
   };
 
+//Permette di selezionare un orario ore:minuti
   const onTimeChange = (event, selectedTime) => {
     setShowTimePicker(Platform.OS === 'ios');
     if (selectedTime) {
@@ -33,57 +36,59 @@ const SetAlarm=()=>{
     }
   };
 
-    const Add = () => {
+//Crea una nuova sveglia, e invia i dati inseriti al dispositivo (aggiunge la sveglia alla lista in homepage)
+  const Add = () => {
     const newAlarm = {
+      id: nextID,
       name: alarmname,
       date: date.toDateString(),
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
     addAlarm(newAlarm);
+    setnextID(prevID => prevID+1);
+    inviaDataAnno(date.getFullYear()); 
+    inviaDataMese(date.getMonth()+1);// i mesi vanno da 0 a 11 
+    inviaDataGiorno(date.getDate()); //giorno del mese da 0 a 31
+    inviaOra(date.getHours()); 
+    inviaMinuti(date.getMinutes());
+    inviaID(newAlarm.id); 
+    if (isEnabled == true)
+      accendiLuciSveglia();
+    else
+      spegniLuciSveglia();
+    if (isEnabledS1 == true)
+      inviaSuoneria1();
+    else
+      inviaSuoneria2();
   };
 
+ //Scelta prima suoneria
   const [isEnabledS1, setIsEnabledS1]= useState(false);
   const toggleSwitchS1 = () => {
       setIsEnabledS1(true);
       setIsEnabledS2(false);
-    };
+  };
 
-  useEffect(() => {
-    if (isEnabledS1) {
-      console.log("suoneria 1 attiva");
-    } else {
-      console.log("suoneria 2 disattiva");
-    }
-  }, [isEnabledS1]);
-
+//Scelta seconda suoneria
   const [isEnabledS2, setIsEnabledS2]= useState(false);
   const toggleSwitchS2 = () => {
       setIsEnabledS2(true);
       setIsEnabledS1(false);
-    };
+  };
   
-  useEffect(() => {
-    if (isEnabledS2) {
-      console.log("suoneria 2 attiva");
-    } else {
-      console.log("suoneria 2 disattiva");
-    }
-  }, [isEnabledS2]);
-
+//Comanda la serranda (comando legato alla sveglia)
   const [isEnabledserr, setIsEnabledserr]= useState(false);
     const toggleSwitchserr = () => {
       setIsEnabledserr(prevState => {
         const newState = !prevState;
+        if(newState == true)
+        //funzione che avvia la serranda
+         // else 
+         //funzione che spegne la serranda
         return newState;
       });
     }
-  useEffect(() => {
-    if (isEnabledserr) {
-      console.log("serranda aperta");
-    } else {
-      console.log("serranda chiusa");
-    }
-  }, [isEnabledserr]);
+
 
   const [isEnabled, setIsEnabled]= useState(false);
   const toggleSwitch = () => {
@@ -92,15 +97,6 @@ const SetAlarm=()=>{
       return newState;
     });
   }
-  useEffect(() => {
-    if (isEnabled) {
-      accendiLuci();
-      console.log("fatto acceso");
-    } else {
-      spegniLuci();
-      console.log("fatto spento");
-    }
-  }, [isEnabled]);
 
 
   return(
