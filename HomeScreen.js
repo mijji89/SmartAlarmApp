@@ -1,37 +1,63 @@
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView,StyleSheet, Text, View, Button, FlatList, Switch, SafeAreaView,Image} from 'react-native';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
 import style from './Stile.js';
-import { accendiLuci, spegniLuci } from './services/lightServices.js'; // Usa il percorso corretto
+import { accendiLuci, spegniLuci } from './services/lightServices.js'; 
 import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices.js';
+import SingleAlarm, { AlarmContext } from './Alarm.js';
 
-  const HomeScreen=()=>{
-    const [isEnabled, setIsEnabled]= useState(false);
-    const toggleSwitch = () => {
+
+const HomeScreen=({navigation})=>{
+  
+  const {alarms,removeAlarm}=useContext(AlarmContext);
+
+
+  const [isEnabled, setIsEnabled]= useState(false);
+  const toggleSwitch = () => {
     setIsEnabled(prevState => {
       const newState = !prevState;
+      if(newState == true)
+        accendiLuci();
+      else
+        spegniLuci();
       return newState;
     });
-  };
+  }
 
-  useEffect(() => {
-    if (isEnabled) {
-      accendiLuci();
-      console.log("fatto acceso");
-    } else {
-      spegniLuci();
-      console.log("fatto spento");
+  //useEffect(() => {
+   // if (isEnabled == true) {
+    //  accendiLuci();
+    //  console.log("fatto acceso");
+    //} else {
+    //  spegniLuci();
+    //  console.log("fatto spento");
+    //}
+  //}, [isEnabled]);
+
+  const [isEnabledserr, setIsEnabledserr]= useState(false);
+    const toggleSwitchserr = () => {
+      setIsEnabledserr(prevState => {
+        const newState = !prevState;
+        return newState;
+      });
     }
-  }, [isEnabled]);
+  useEffect(() => {
+    if (isEnabledserr) {
+      console.log("serranda aperta");
+    } else {
+      console.log("serranda chiusa");
+    }
+  }, [isEnabledserr]);
 
-    const [temperatura, setTemperatura] = useState(null);
-    const [umidita, setUmidita] = useState(null);
+      const [temperatura, setTemperatura] = useState(null);
+      const [umidita, setUmidita] = useState(null);
 
-    useEffect(() => {
-      onTemperaturaChange(val => setTemperatura(val));
-      onUmiditaChange(val => setUmidita(val));
-    }, []);
+      useEffect(() => {
+        onTemperaturaChange(val => setTemperatura(val));
+        onUmiditaChange(val => setUmidita(val));
+      }, []);
+
 
   return(
     <ScrollView>
@@ -47,12 +73,16 @@ import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices
         <Text style={style.subtitle}>{isEnabled? '💡Luci accese': 'Luci spente🌙'}</Text>
       </View>
       <Text style={style.prinsubtitle}>Premere per aprire/chiudere la serranda:</Text>
-      <View style={{flexDirection:'row', columnGap:20}}>
-          
-          
-        </View>
+      <View style={style.riga}>
+          <Switch trackColor={{ false: 'black', true:'lightgreen'}} onValueChange={toggleSwitchserr} value={isEnabledserr} />
+          <Text style={style.subtitle}>{isEnabledserr? '🏞️Serranda aperta': 'Serranda chiusa🪟'}</Text>
+      </View>
       <Text style={style.title}>Sveglie attive:</Text>
       <View style={style.alarmlist}>
+        { alarms.map((item, index)=>(
+           <SingleAlarm alarm={{ name: item.name, time:item.time, date:item.date}} 
+            onDelete={()=> removeAlarm(index)} />
+        ))}
       </View>
       <Text style={style.title}>La mia stanza: </Text>
       <View style={{flexDirection:'row', columnGap:20}}>
@@ -67,5 +97,3 @@ import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices
 };
 
 export default HomeScreen; 
-
-
