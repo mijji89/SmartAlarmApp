@@ -13,6 +13,7 @@ client.on('reconnect', () => {
   console.log(' Riconnessione in corso...');
 });
 
+//invia il comando di accensione/spegnimento luci
 const sendMQTTMessage = (value) => {
   const topic = 'sveglia/luci';
   const message = value.toString();

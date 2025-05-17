@@ -9,10 +9,10 @@ import SingleAlarm, { AlarmContext } from './Alarm.js';
 
 
 const HomeScreen=({navigation})=>{
-  
+  //Gestione eliminazione elementi dalla lista
   const {alarms,removeAlarm}=useContext(AlarmContext);
 
-
+//Switch luci
   const [isEnabled, setIsEnabled]= useState(false);
   const toggleSwitch = () => {
     setIsEnabled(prevState => {
@@ -25,38 +25,26 @@ const HomeScreen=({navigation})=>{
     });
   }
 
-  //useEffect(() => {
-   // if (isEnabled == true) {
-    //  accendiLuci();
-    //  console.log("fatto acceso");
-    //} else {
-    //  spegniLuci();
-    //  console.log("fatto spento");
-    //}
-  //}, [isEnabled]);
-
+//Switch serranda
   const [isEnabledserr, setIsEnabledserr]= useState(false);
     const toggleSwitchserr = () => {
       setIsEnabledserr(prevState => {
         const newState = !prevState;
+        if(newState == true)
+        //funzione che avvia la serranda
+         // else 
+         //funzione che spegne la serranda
         return newState;
       });
     }
+
+//Aggiornamento temperatura/umidità
+  const [temperatura, setTemperatura] = useState(null);
+  const [umidita, setUmidita] = useState(null);
   useEffect(() => {
-    if (isEnabledserr) {
-      console.log("serranda aperta");
-    } else {
-      console.log("serranda chiusa");
-    }
-  }, [isEnabledserr]);
-
-      const [temperatura, setTemperatura] = useState(null);
-      const [umidita, setUmidita] = useState(null);
-
-      useEffect(() => {
-        onTemperaturaChange(val => setTemperatura(val));
-        onUmiditaChange(val => setUmidita(val));
-      }, []);
+    onTemperaturaChange(val => setTemperatura(val));
+    onUmiditaChange(val => setUmidita(val));
+  }, []);
 
 
   return(
@@ -79,9 +67,11 @@ const HomeScreen=({navigation})=>{
       </View>
       <Text style={style.title}>Sveglie attive:</Text>
       <View style={style.alarmlist}>
-        { alarms.map((item, index)=>(
-           <SingleAlarm alarm={{ name: item.name, time:item.time, date:item.date}} 
-            onDelete={()=> removeAlarm(index)} />
+        { alarms.map((item)=>(
+          <View key={item.id}>
+            <SingleAlarm alarm={{ id: item.id, name: item.name, time:item.time, date:item.date}} 
+              onDelete={()=> removeAlarm(item.id)} />
+          </View>
         ))}
       </View>
       <Text style={style.title}>La mia stanza: </Text>
