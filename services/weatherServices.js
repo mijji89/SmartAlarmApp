@@ -8,6 +8,7 @@ let umidita=0;
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
+  //sottoscrizione ai topic
   client.subscribe('sensore/temperatura', (err) => {
     if (err) {
       console.error('Errore nella sottoscrizione:', err);
@@ -32,6 +33,7 @@ client.on('reconnect', () => {
   console.log(' Riconnessione in corso...');
 });
 
+//Si ricevono messaggi relativi alla temperatura/umidità
 client.on('message', (topic, message) => {
   const text = message.toString();
   if (topic === 'sensore/temperatura') {

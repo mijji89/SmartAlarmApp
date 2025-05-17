@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState, useContext, useEffect} from 'react';
 import style from './Stile.js';
 import { AlarmContext } from './Alarm.js';
-import { inviaSuoneria1, inviaSuoneria2, inviaDataAnno, inviaDataMese, inviaDataGiorno, inviaMinuti, inviaOra, inviaID, spegniLuciSveglia, accendiLuciSveglia } from './services/alarmServices.js';
+import { inviaSveglia } from './services/alarmServices.js';
 
 
 const SetAlarm=()=>{
@@ -42,24 +42,14 @@ const SetAlarm=()=>{
       id: nextID,
       name: alarmname,
       date: date.toDateString(),
-      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      melody: isEnabledS1,// 1 la prima suoneria, 0 la seconfa
+      lights: isEnabled, 
+      window: isEnabledserr 
     };
     addAlarm(newAlarm);
+    inviaSveglia(newAlarm);
     setnextID(prevID => prevID+1);
-    inviaDataAnno(date.getFullYear()); 
-    inviaDataMese(date.getMonth()+1);// i mesi vanno da 0 a 11 
-    inviaDataGiorno(date.getDate()); //giorno del mese da 0 a 31
-    inviaOra(date.getHours()); 
-    inviaMinuti(date.getMinutes());
-    inviaID(newAlarm.id); 
-    if (isEnabled == true)
-      accendiLuciSveglia();
-    else
-      spegniLuciSveglia();
-    if (isEnabledS1 == true)
-      inviaSuoneria1();
-    else
-      inviaSuoneria2();
   };
 
  //Scelta prima suoneria

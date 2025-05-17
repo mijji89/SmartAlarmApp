@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.1.3:9001');
+const client = mqtt.connect('ws://192.168.1.3:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
@@ -13,16 +13,17 @@ client.on('reconnect', () => {
   console.log(' Riconnessione in corso...');
 });
 
-const sendMQTTMessageluci = (value) => {
-  const topic = 'sveglia/gestionesveglie/luci';
-  const message = value.toString();
+//Invia un oggetto JScript trasformando in una stringa JSON
+const sendMQTTMessageSveglia = (value) => {
+  const topic = 'sveglia/gestionesveglie/aggiunta';
+  const message =JSON.stringify( value);
 
   if (client.connected) {
     client.publish(topic, message, (err) => {
       if (err) {
         console.error('Errore durante la pubblicazione MQTT:', err);
       } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
+        console.log(`Messaggio inviato su ${topic}:`);
       }
     });
   } else {
@@ -30,17 +31,17 @@ const sendMQTTMessageluci = (value) => {
   }
 };
 
-
-const sendMQTTMessageDataGiorno = (value) => {
-  const topic = 'sveglia/gestionesveglie/data/giorno';
-  const message = value.toString();
+//Gestisce la rimozione di una sveglia, inviando l'id della sveglia eliminata
+const sendMQTTMessageSvegliaRimozione = (value) => {
+  const topic = 'sveglia/gestionesveglie/rimozione';
+  const message =value.toString();
 
   if (client.connected) {
     client.publish(topic, message, (err) => {
       if (err) {
         console.error('Errore durante la pubblicazione MQTT:', err);
       } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
+        console.log(`Messaggio inviato su ${topic}:`);
       }
     });
   } else {
@@ -48,150 +49,13 @@ const sendMQTTMessageDataGiorno = (value) => {
   }
 };
 
-const sendMQTTMessageDataMese = (value) => {
-  const topic = 'sveglia/gestionesveglie/data/mese';
-  const message = value.toString();
-
-  if (client.connected) {
-    client.publish(topic, message, (err) => {
-      if (err) {
-        console.error('Errore durante la pubblicazione MQTT:', err);
-      } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
-      }
-    });
-  } else {
-    console.warn('MQTT non connesso, messaggio non inviato');
-  }
-};
-
-const sendMQTTMessageDataAnno = (value) => {
-  const topic = 'sveglia/gestionesveglie/data/anno';
-  const message = value.toString();
-
-  if (client.connected) {
-    client.publish(topic, message, (err) => {
-      if (err) {
-        console.error('Errore durante la pubblicazione MQTT:', err);
-      } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
-      }
-    });
-  } else {
-    console.warn('MQTT non connesso, messaggio non inviato');
-  }
-};
-
-const sendMQTTMessageOra = (value) => {
-  const topic = 'sveglia/gestionesveglie/orario/ora';
-  const message = value.toString();
-
-  if (client.connected) {
-    client.publish(topic, message, (err) => {
-      if (err) {
-        console.error('Errore durante la pubblicazione MQTT:', err);
-      } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
-      }
-    });
-  } else {
-    console.warn('MQTT non connesso, messaggio non inviato');
-  }
-};
-
-
-const sendMQTTMessageMinuti = (value) => {
-  const topic = 'sveglia/gestionesveglie/orario/minuti';
-  const message = value.toString();
-
-  if (client.connected) {
-    client.publish(topic, message, (err) => {
-      if (err) {
-        console.error('Errore durante la pubblicazione MQTT:', err);
-      } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
-      }
-    });
-  } else {
-    console.warn('MQTT non connesso, messaggio non inviato');
-  }
-}; 
-
-const sendMQTTMessageID = (value) => {
-  const topic = 'sveglia/gestionesveglie/sveglia/id';
-  const message = value.toString();
-
-  if (client.connected) {
-    client.publish(topic, message, (err) => {
-      if (err) {
-        console.error('Errore durante la pubblicazione MQTT:', err);
-      } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
-      }
-    });
-  } else {
-    console.warn('MQTT non connesso, messaggio non inviato');
-  }
-}; 
-
-const sendMQTTMessageSuoneria = (value) => {
-  const topic = 'sveglia/gestionesveglie/sveglia/suoneria';
-  const message = value.toString();
-
-  if (client.connected) {
-    client.publish(topic, message, (err) => {
-      if (err) {
-        console.error('Errore durante la pubblicazione MQTT:', err);
-      } else {
-        console.log(`Messaggio inviato su ${topic}: ${message}`);
-      }
-    });
-  } else {
-    console.warn('MQTT non connesso, messaggio non inviato');
-  }
-}; 
-
-
-const spegniLuciSveglia = () => {
-  sendMQTTMessageluci(0);
-};
-
-const accendiLuciSveglia = () => {
-  sendMQTTMessageluci(1);
-};
-
-const inviaDataGiorno =(giorno)=>{
-    sendMQTTMessageDataGiorno(giorno); 
-}; 
-
-const inviaDataMese =(mese)=>{
-    sendMQTTMessageDataMese(mese);
-}; 
-
-const inviaDataAnno=(anno)=>{
-    sendMQTTMessageDataAnno(anno); 
-};
-
-const inviaOra= (ora)=>{
-    sendMQTTMessageOra(ora);
-}; 
-
-const inviaMinuti= (minuti)=>{
-    sendMQTTMessageMinuti(minuti); 
-};
-
-const inviaID= (id)=>{
-    sendMQTTMessageID(id);
-};
-
-const inviaSuoneria1= () =>{
-    sendMQTTMessageSuoneria(1);
+//Invia i dettagli della sveglia
+const inviaSveglia= (sveglia)=>{
+  sendMQTTMessageSveglia(sveglia); 
 }
 
-const inviaSuoneria2= () =>{
-    sendMQTTMessageSuoneria(2);
+//Invia l'id della sveglia da rimuovere
+const cancellaSveglia= (svegliaId)=>{
+  sendMQTTMessageSvegliaRimozione(svegliaId); 
 }
-
-
-
-export { accendiLuciSveglia, spegniLuciSveglia, inviaDataGiorno, inviaDataMese, inviaDataAnno, inviaOra, inviaMinuti, inviaID, inviaSuoneria1, inviaSuoneria2};
+export { inviaSveglia, cancellaSveglia};

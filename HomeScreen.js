@@ -9,10 +9,10 @@ import SingleAlarm, { AlarmContext } from './Alarm.js';
 
 
 const HomeScreen=({navigation})=>{
-  
+  //Gestione eliminazione elementi dalla lista
   const {alarms,removeAlarm}=useContext(AlarmContext);
 
-
+//Switch luci
   const [isEnabled, setIsEnabled]= useState(false);
   const toggleSwitch = () => {
     setIsEnabled(prevState => {
@@ -25,6 +25,7 @@ const HomeScreen=({navigation})=>{
     });
   }
 
+//Switch serranda
   const [isEnabledserr, setIsEnabledserr]= useState(false);
     const toggleSwitchserr = () => {
       setIsEnabledserr(prevState => {
@@ -37,13 +38,13 @@ const HomeScreen=({navigation})=>{
       });
     }
 
-      const [temperatura, setTemperatura] = useState(null);
-      const [umidita, setUmidita] = useState(null);
-
-      useEffect(() => {
-        onTemperaturaChange(val => setTemperatura(val));
-        onUmiditaChange(val => setUmidita(val));
-      }, []);
+//Aggiornamento temperatura/umidità
+  const [temperatura, setTemperatura] = useState(null);
+  const [umidita, setUmidita] = useState(null);
+  useEffect(() => {
+    onTemperaturaChange(val => setTemperatura(val));
+    onUmiditaChange(val => setUmidita(val));
+  }, []);
 
 
   return(

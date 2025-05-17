@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.1.3:9001');
+const client = mqtt.connect('ws://192.168.1.3:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
@@ -13,6 +13,7 @@ client.on('reconnect', () => {
   console.log(' Riconnessione in corso...');
 });
 
+//invia il comando di accensione/spegnimento luci
 const sendMQTTMessage = (value) => {
   const topic = 'sveglia/luci';
   const message = value.toString();
