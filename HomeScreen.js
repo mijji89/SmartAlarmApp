@@ -5,7 +5,9 @@ import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
 import style from './Stile.js';
 import { accendiLuci, spegniLuci } from './services/lightServices.js'; 
 import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices.js';
+import {inviaLuceNaturale} from './services/naturalLightServices.js'
 import SingleAlarm, { AlarmContext } from './Alarm.js';
+import SliderTemp from './Slidertemp.js';
 
 
 const HomeScreen=({navigation})=>{
@@ -26,6 +28,7 @@ const HomeScreen=({navigation})=>{
   }
 
 //Switch serranda
+
   const [isEnabledserr, setIsEnabledserr]= useState(false);
     const toggleSwitchserr = () => {
       setIsEnabledserr(prevState => {
@@ -39,14 +42,13 @@ const HomeScreen=({navigation})=>{
     }
 
 //Switch luce naturale
+const [sogliaLuminosita, setSogliaLuminosita] = useState(30); // valore iniziale
   const [isEnablednatural, setIsEnablednatural]= useState(false);
     const toggleSwitchnatural = () => {
       setIsEnablednatural(prevState => {
         const newState = !prevState;
         if(newState == true)
-        //funzione che avvia la serranda
-         // else 
-         //funzione che spegne la serranda
+          inviaLuceNaturale(sogliaLuminosita);
         return newState;
       });
     }
@@ -95,11 +97,14 @@ const HomeScreen=({navigation})=>{
       <View style={style.riga}>
         <Text style={style.subtitle}>Umidità attuale: {umidita !== null ? `${umidita}%` : '---'}</Text>
       </View>
+      <Text style={style.title}>Modalità luce naturale</Text>
       <Text style={style.prinsubtitle}>La modalità luce naturale farà alzare e abbassare la serranda in base alla luce esterna</Text>
       <View style={style.riga}>
           <Switch trackColor={{ false: 'gray', true:'orange'}} onValueChange={toggleSwitchnatural} value={isEnablednatural} />
           <Text style={style.subtitle}>{isEnablednatural? '☀️Modalità attiva': '🌙Modalità disattivata'}</Text>
       </View>
+      <Text style={style.prinsubtitle}>Inserire il valore di luminosità per cui l'ambiente è considerato luminoso:</Text>
+      <SliderTemp onValueChange={setSogliaLuminosita}/>
     </SafeAreaView>
     </ScrollView>
   );

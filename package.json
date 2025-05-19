@@ -10,15 +10,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "8.3.0",
     "@react-navigation/bottom-tabs": "^7.3.13",
     "expo": "~53.0.9",
     "expo-status-bar": "~2.2.3",
     "mqtt": "^5.13.0",
     "react": "19.0.0",
     "react-native": "0.79.2",
+    "react-native-awesome-slider": "^2.9.0",
     "react-native-gesture-handler": "~2.24.0",
-    "react-native-reanimated": "~3.17.4",
-    "@react-native-community/datetimepicker": "8.3.0"
+    "react-native-reanimated": "~3.17.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
