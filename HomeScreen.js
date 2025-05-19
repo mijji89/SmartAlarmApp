@@ -6,6 +6,7 @@ import style from './Stile.js';
 import { accendiLuci, spegniLuci } from './services/lightServices.js'; 
 import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices.js';
 import SingleAlarm, { AlarmContext } from './Alarm.js';
+import SliderTemp from './Slidertemp.js';
 
 
 const HomeScreen=({navigation})=>{
@@ -95,11 +96,14 @@ const HomeScreen=({navigation})=>{
       <View style={style.riga}>
         <Text style={style.subtitle}>Umidità attuale: {umidita !== null ? `${umidita}%` : '---'}</Text>
       </View>
+      <Text style={style.title}>Modalità luce naturale</Text>
       <Text style={style.prinsubtitle}>La modalità luce naturale farà alzare e abbassare la serranda in base alla luce esterna</Text>
       <View style={style.riga}>
           <Switch trackColor={{ false: 'gray', true:'orange'}} onValueChange={toggleSwitchnatural} value={isEnablednatural} />
           <Text style={style.subtitle}>{isEnablednatural? '☀️Modalità attiva': '🌙Modalità disattivata'}</Text>
       </View>
+      <Text style={style.prinsubtitle}>Inserire il valore di luminosità per cui l'ambiente è considerato luminoso:</Text>
+      <SliderTemp/>
     </SafeAreaView>
     </ScrollView>
   );
