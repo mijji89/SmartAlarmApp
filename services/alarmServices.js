@@ -1,8 +1,19 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.1.3:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+import removeAlarm from '/Alarm.js';
+const client = mqtt.connect('ws://192.168.1.11:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
+
+  //Sottoscrizione
+  client.subscribe('sveglia/gestioneSveglie/cancellazione', (err) => {
+    if (err) {
+      console.error('Errore nella sottoscrizione:', err);
+    } else {
+      console.log('Sottoscritto a sensori/temperatura');
+    }
+  });
+
 })
 
 client.on('error',(err)=>{
@@ -11,6 +22,14 @@ client.on('error',(err)=>{
 
 client.on('reconnect', () => {
   console.log(' Riconnessione in corso...');
+});
+
+//Riceve l'ID della sveglia che è suonata per poi rimuoverla
+client.on('message', (topic, message) => {
+  if (topic === 'sveglia/gestioneSveglie/cancellazione') {
+    id = messagge;
+  removeAlarm(id);
+  }
 });
 
 //Invia un oggetto JScript trasformando in una stringa JSON

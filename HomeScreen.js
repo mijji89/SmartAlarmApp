@@ -17,7 +17,7 @@ const HomeScreen=({navigation})=>{
   const toggleSwitch = () => {
     setIsEnabled(prevState => {
       const newState = !prevState;
-      if( newState == true)
+      if(newState == true)
         accendiLuci();
       else
         spegniLuci();
@@ -37,6 +37,20 @@ const HomeScreen=({navigation})=>{
         return newState;
       });
     }
+
+//Switch luce naturale
+  const [isEnablednatural, setIsEnablednatural]= useState(false);
+    const toggleSwitchnatural = () => {
+      setIsEnablednatural(prevState => {
+        const newState = !prevState;
+        if(newState == true)
+        //funzione che avvia la serranda
+         // else 
+         //funzione che spegne la serranda
+        return newState;
+      });
+    }
+
 
 //Aggiornamento temperatura/umidità
   const [temperatura, setTemperatura] = useState(null);
@@ -80,6 +94,11 @@ const HomeScreen=({navigation})=>{
       </View>
       <View style={style.riga}>
         <Text style={style.subtitle}>Umidità attuale: {umidita !== null ? `${umidita}%` : '---'}</Text>
+      </View>
+      <Text style={style.prinsubtitle}>La modalità luce naturale farà alzare e abbassare la serranda in base alla luce esterna</Text>
+      <View style={style.riga}>
+          <Switch trackColor={{ false: 'gray', true:'orange'}} onValueChange={toggleSwitchnatural} value={isEnablednatural} />
+          <Text style={style.subtitle}>{isEnablednatural? '☀️Modalità attiva': '🌙Modalità disattivata'}</Text>
       </View>
     </SafeAreaView>
     </ScrollView>

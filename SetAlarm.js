@@ -38,12 +38,17 @@ const SetAlarm=()=>{
 
 //Crea una nuova sveglia, e invia i dati inseriti al dispositivo (aggiunge la sveglia alla lista in homepage)
   const Add = () => {
+    let melodyy;
+    if (isEnabledS1)
+      melodyy=1;
+    else
+      melodyy=2;
     const newAlarm = {
       id: nextID,
       name: alarmname,
       date: date.toDateString(),
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      melody: isEnabledS1,// 1 la prima suoneria, 0 la seconfa
+      melody: melodyy,// 1 la prima suoneria, 2 la seconda
       lights: isEnabled, 
       window: isEnabledserr 
     };
@@ -133,6 +138,7 @@ const SetAlarm=()=>{
           />
         )}
       <Text style={style.prinsubtitle}>Suonerie:</Text>
+      <Text style={style.subtitle}>⚠️Scegliere almeno una suoneria!</Text>
       <View style={style.riga}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS1} value={isEnabledS1} />
           <Text style={style.subtitle}>{isEnabledS1? 'Suoneria 1 attiva': 'Suoneria 1 disattiva'}</Text>
