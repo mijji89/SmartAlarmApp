@@ -33,5 +33,8 @@ const sendMQTTMessageNaturalMode = (value) => {
 };
 
 const inviaLuceNaturale=(trashold)=>{
+    console.log("inviato");
     sendMQTTMessageNaturalMode(trashold);
 }
+
+export {inviaLuceNaturale};

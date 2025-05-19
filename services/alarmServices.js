@@ -27,7 +27,7 @@ client.on('reconnect', () => {
 //Riceve l'ID della sveglia che è suonata per poi rimuoverla
 client.on('message', (topic, message) => {
   if (topic === 'sveglia/gestioneSveglie/cancellazione') {
-    id = messagge;
+    id = message;
   removeAlarm(id);
   }
 });

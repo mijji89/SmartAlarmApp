@@ -6,21 +6,17 @@ import { View,Text} from 'react-native';
 
 import style from './Stile.js';
 
-const SliderTemp = ()=>{
+const SliderTemp = ({onValueChange})=>{
+    const [displayVal, setDisplayVal] = useState(30);
     const progressVal= useSharedValue(30); 
     const minValue=useSharedValue(0); 
     const maxValue=useSharedValue(100);
 
-    
-    const [displayVal, setDisplayVal] = useState(30);
-
     const handleValueChange = (val) => {
-        'worklet';
-        runOnJS(()=>{
-            setDisplayVal(val);
-            onValueChange?.(val);
-         });
+        setDisplayVal(val);
+        onValueChange?.(val);
     };
+ 
 
     return(
     <GestureHandlerRootView>
@@ -33,4 +29,4 @@ const SliderTemp = ()=>{
 }
 
 
-export default {SliderTemp};
+export default SliderTemp;

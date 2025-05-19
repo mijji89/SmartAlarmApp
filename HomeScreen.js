@@ -97,7 +97,7 @@ const [sogliaLuminosita, setSogliaLuminosita] = useState(30); // valore iniziale
       <View style={style.riga}>
         <Text style={style.subtitle}>Umidità attuale: {umidita !== null ? `${umidita}%` : '---'}</Text>
       </View>
-      <Text style={style.title}>Modalità luce naturale</Text>
+      <Text style={style.smallerTitle}>Modalità luce naturale</Text>
       <Text style={style.prinsubtitle}>La modalità luce naturale farà alzare e abbassare la serranda in base alla luce esterna</Text>
       <View style={style.riga}>
           <Switch trackColor={{ false: 'gray', true:'orange'}} onValueChange={toggleSwitchnatural} value={isEnablednatural} />

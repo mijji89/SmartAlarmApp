@@ -60,6 +60,12 @@ const style = StyleSheet.create({
   itemText:{
       maxWidth: '80%',
   },
+  smallerTitle:{
+    fontSize:30, 
+    fontWeight: 'bold', 
+    color: '#2b2d42', 
+    lineHeight: 80
+  }
 
 });
 
