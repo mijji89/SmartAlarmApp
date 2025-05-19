@@ -38,12 +38,17 @@ const SetAlarm=()=>{
 
 //Crea una nuova sveglia, e invia i dati inseriti al dispositivo (aggiunge la sveglia alla lista in homepage)
   const Add = () => {
+    let melodyy;
+    if (isEnabledS1)
+      melodyy=1;
+    else
+      melodyy=2;
     const newAlarm = {
       id: nextID,
       name: alarmname,
       date: date.toDateString(),
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      melody: isEnabledS1,// 1 la prima suoneria, 0 la seconfa
+      melody: melodyy,// 1 la prima suoneria, 0 la seconfa
       lights: isEnabled, 
       window: isEnabledserr 
     };
