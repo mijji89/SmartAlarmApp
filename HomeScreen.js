@@ -6,6 +6,7 @@ import style from './Stile.js';
 import { accendiLuci, spegniLuci } from './services/lightServices.js'; 
 import { onTemperaturaChange, onUmiditaChange } from './services/weatherServices.js';
 import {inviaLuceNaturale} from './services/naturalLightServices.js'
+import { inviaOraCorrente } from './services/sendTime.js';
 import SingleAlarm, { AlarmContext } from './Alarm.js';
 import SliderTemp from './Slidertemp.js';
 
@@ -13,7 +14,8 @@ import SliderTemp from './Slidertemp.js';
 const HomeScreen=({navigation})=>{
   //Gestione eliminazione elementi dalla lista
   const {alarms,removeAlarm}=useContext(AlarmContext);
-
+  oggi = new Date()
+  inviaOraCorrente(oggi)
 //Switch luci
   const [isEnabled, setIsEnabled]= useState(false);
   const toggleSwitch = () => {

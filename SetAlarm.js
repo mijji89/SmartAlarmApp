@@ -141,11 +141,11 @@ const SetAlarm=()=>{
       <Text style={style.subtitle}>⚠️Scegliere almeno una suoneria!</Text>
       <View style={style.riga}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS1} value={isEnabledS1} />
-          <Text style={style.subtitle}>{isEnabledS1? 'Suoneria 1 attiva': 'Suoneria 1 disattiva'}</Text>
+          <Text style={style.subtitle}>{isEnabledS1? 'Suoneria Mario Bros attiva': 'Suoneria Mario Bros disattiva'}</Text>
       </View>
           <View style={style.riga}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS2} value={isEnabledS2} />
-          <Text style={style.subtitle}>{isEnabledS2? 'Suoneria 2 attiva': 'Suoneria 2 disattiva'}</Text>
+          <Text style={style.subtitle}>{isEnabledS2? 'Suoneria Star Wars attiva': 'Suoneria Star Wars disattiva'}</Text>
       </View>
       <Text style={style.prinsubtitle}>Stanza:</Text>
        <View style={style.riga}>
