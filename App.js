@@ -1,11 +1,20 @@
 import React from 'react';
 import AppNavigator from './Navigator';
 import { AlarmProvider } from './Alarm';
+import {useEffect} from 'react';
+import { LightProvider } from './services/lightServices';
+import { WindowProvider } from './services/windowServices';
 
 export default function App() {
+
   return ( 
     <AlarmProvider>
-      <AppNavigator />
+      <LightProvider>
+        <WindowProvider>
+          <AppNavigator />
+        </WindowProvider>
+      </LightProvider>
+      
     </AlarmProvider>
     );
 }

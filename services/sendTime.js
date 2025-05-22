@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.1.11:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.15.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
@@ -16,7 +16,7 @@ client.on('reconnect', () => {
 //Invia il valore di base della luminosità quando si seleziona la modalità luceNaturale
 const sendMQTTMessageCurrentTime = (value) => {
   const topic = 'sveglia/CurrentTime';
-  const message =JSON.stringify( value);
+  const message =(value).toString();
 
   if (client.connected) {
     client.publish(topic, message, (err) => {
@@ -31,9 +31,9 @@ const sendMQTTMessageCurrentTime = (value) => {
   }
 };
 
-const inviaOraCorrente=(curr)=>{
+const sendCurrentTime=(curr)=>{
     console.log("inviato");
-    sendMQTTMessageNaturalMode(curr);
+    sendMQTTMessageCurrentTime(curr);
 }
 
-export {inviaOraCorrente};
+export {sendCurrentTime};

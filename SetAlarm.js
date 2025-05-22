@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, ScrollView, Text, View, Button, SafeAreaView, TextInput, Switch} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState, useContext, useEffect} from 'react';
-import style from './Stile.js';
+import style from './Style.js';
 import { AlarmContext } from './Alarm.js';
-import { inviaSveglia } from './services/alarmServices.js';
+import { sendAlarm } from './services/alarmServices.js';
+import LightContext from './services/lightServices.js';
+import WindowContext from './services/windowServices.js';
 
 
 const SetAlarm=()=>{
@@ -49,11 +51,11 @@ const SetAlarm=()=>{
       date: date.toDateString(),
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       melody: melodyy,// 1 la prima suoneria, 2 la seconda
-      lights: isEnabled, 
-      window: isEnabledserr 
+      lights: isEnabledal, 
+      window: isEnabledwndal
     };
     addAlarm(newAlarm);
-    inviaSveglia(newAlarm);
+    sendAlarm(newAlarm);
     setnextID(prevID => prevID+1);
   };
 
@@ -72,9 +74,9 @@ const SetAlarm=()=>{
   };
   
 //Comanda la serranda (comando legato alla sveglia)
-  const [isEnabledserr, setIsEnabledserr]= useState(false);
-    const toggleSwitchserr = () => {
-      setIsEnabledserr(prevState => {
+  const [isEnabledwndal, setIsEnabledwndal]= useState(false);
+    const toggleSwitchwndal = () => {
+      setIsEnabledwndal(prevState => {
         const newState = !prevState;
         if(newState == true)
         //funzione che avvia la serranda
@@ -85,9 +87,9 @@ const SetAlarm=()=>{
     }
 
 
-  const [isEnabled, setIsEnabled]= useState(false);
-  const toggleSwitch = () => {
-    setIsEnabled(prevState => {
+  const [isEnabledal, setIsEnabledal]= useState(false);
+  const toggleSwitchal = () => {
+    setIsEnabledal(prevState => {
       const newState = !prevState;
       return newState;
     });
@@ -99,7 +101,7 @@ const SetAlarm=()=>{
     <SafeAreaView style={style.body}>
         <StatusBar backgroundColor='#f5f5f5'/>
         <Text style={style.title}>Sveglie</Text>  
-        <View style={style.riga}>
+        <View style={style.row}>
             <Text style={style.subtitle}>Aggiungi una sveglia⏰:</Text>
             <Button title='Aggiungi' onPress={Add} color="lightskyblue"/>
         </View>
@@ -109,13 +111,13 @@ const SetAlarm=()=>{
           onChangeText={(testo)=>{setInput(testo)} } 
          /> 
       
-        <Text style={style.subtitle}>Seleziona data:</Text>
-          <View style={style.riga}>
+        <Text style={style.prinsubtitle}>Seleziona data:</Text>
+          <View style={style.row}>
           <Text>{date.toDateString()}</Text>
           <Button title="Scegli Data" color= 'lightskyblue' onPress={() => setShowDatePicker(true)} />
         </View>
-        <Text style={style.subtitle}>Seleziona ora:</Text>
-        <View style={style.riga}>
+        <Text style={style.prinsubtitle}>Seleziona ora:</Text>
+        <View style={style.row}>
           <Text>{date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
           <Button title="Scegli Ora" color= 'lightskyblue' onPress={() => setShowTimePicker(true)} />
         </View>
@@ -139,22 +141,22 @@ const SetAlarm=()=>{
         )}
       <Text style={style.prinsubtitle}>Suonerie:</Text>
       <Text style={style.subtitle}>⚠️Scegliere almeno una suoneria!</Text>
-      <View style={style.riga}>
+      <View style={style.row}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS1} value={isEnabledS1} />
           <Text style={style.subtitle}>{isEnabledS1? 'Suoneria Mario Bros attiva': 'Suoneria Mario Bros disattiva'}</Text>
       </View>
-          <View style={style.riga}>
+          <View style={style.row}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS2} value={isEnabledS2} />
           <Text style={style.subtitle}>{isEnabledS2? 'Suoneria Star Wars attiva': 'Suoneria Star Wars disattiva'}</Text>
       </View>
       <Text style={style.prinsubtitle}>Stanza:</Text>
-       <View style={style.riga}>
-          <Switch trackColor={{ false: 'black', true:'lightgreen'}} onValueChange={toggleSwitchserr} value={isEnabledserr} />
-          <Text style={style.subtitle}>{isEnabledserr? '🏞️Apri serranda': 'Chiudi serranda🪟'}</Text>
+       <View style={style.row}>
+          <Switch trackColor={{ false: 'black', true:'lightgreen'}} onValueChange={toggleSwitchwndal} value={isEnabledwndal} />
+          <Text style={style.subtitle}>{isEnabledwndal? '🏞️Apri serranda': 'Chiudi serranda🪟'}</Text>
       </View>
-            <View style={style.riga}>
-        <Switch trackColor={{ false: 'black', true:'lightblue'}} onValueChange={toggleSwitch} value={isEnabled} />
-        <Text style={style.subtitle}>{isEnabled? '💡Accendi luci': 'Spegni luci🌙'}</Text>
+            <View style={style.row}>
+        <Switch trackColor={{ false: 'black', true:'lightblue'}} onValueChange={toggleSwitchal} value={isEnabledal} />
+        <Text style={style.subtitle}>{isEnabledal? '💡Accendi luci': 'Spegni luci🌙'}</Text>
       </View>
     </SafeAreaView>
     </ScrollView>

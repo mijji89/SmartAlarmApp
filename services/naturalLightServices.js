@@ -1,6 +1,6 @@
 import mqtt from 'mqtt';
 import removeAlarm from '../Alarm.js';
-const client = mqtt.connect('ws://192.168.1.11:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.15.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
@@ -18,7 +18,6 @@ client.on('reconnect', () => {
 const sendMQTTMessageNaturalMode = (value) => {
   const topic = 'sveglia/modalita/luceNaturale';
   const message =( value);
-
   if (client.connected) {
     client.publish(topic, message, (err) => {
       if (err) {
@@ -32,9 +31,9 @@ const sendMQTTMessageNaturalMode = (value) => {
   }
 };
 
-const inviaLuceNaturale=(trashold)=>{
+const sendNaturalMode=(trashold)=>{
     console.log("inviato");
     sendMQTTMessageNaturalMode(trashold);
 }
 
-export {inviaLuceNaturale};
+export {sendNaturalMode};

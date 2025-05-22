@@ -30,7 +30,7 @@ const style = StyleSheet.create({
     flexDirection:'column',
     justifyContent:'space-between'
   },
-  riga:{
+  row:{
     flexDirection:'row', 
     columnGap:20,
     flex:1
