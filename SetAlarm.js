@@ -76,10 +76,6 @@ const SetAlarm=()=>{
     const toggleSwitchserr = () => {
       setIsEnabledserr(prevState => {
         const newState = !prevState;
-        if(newState == true)
-        //funzione che avvia la serranda
-         // else 
-         //funzione che spegne la serranda
         return newState;
       });
     }

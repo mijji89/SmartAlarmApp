@@ -1,6 +1,6 @@
 import mqtt from 'mqtt';
 import removeAlarm from '../Alarm.js';
-const client = mqtt.connect('ws://192.168.1.11:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.227.69:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
