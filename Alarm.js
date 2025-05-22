@@ -1,8 +1,8 @@
 import React, { createContext, useState } from 'react';
 import {View, Text, StyleSheet, Touchable, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
-import style from './Stile';
-import { cancellaSveglia } from './services/alarmServices';
+import style from './Style';
+import { deleteAlarm } from './services/alarmServices';
 
 export const AlarmContext = createContext();
 
@@ -17,7 +17,7 @@ export const AlarmProvider = ({ children }) => {
 //Rimuove una sveglia dalla lista, mediante l'id
   const removeAlarm = (id) => {
     setAlarms(prev => prev.filter(item=> item.id !== id));
-    cancellaSveglia(id);
+    deleteAlarm(id);
   };
 
 //Fornisce le funzione di utility 
@@ -33,7 +33,7 @@ const singleAlarm= ({alarm, onDelete})=>{
     return(
         <View style={style.item}>
             <Text style={style.itemTitle}>{name}</Text>
-            <View style={style.riga}>
+            <View style={style.row}>
                 <TouchableOpacity onPress={onDelete}>
                     <Ionicons name="trash-outline" size={24}/>
                 </TouchableOpacity>

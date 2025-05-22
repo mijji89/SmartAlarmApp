@@ -1,6 +1,5 @@
 import mqtt from 'mqtt';
-import removeAlarm from '../Alarm.js';
-const client = mqtt.connect('ws://192.168.227.69:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.15.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
@@ -15,9 +14,10 @@ client.on('reconnect', () => {
 });
 
 //Invia il valore di base della luminosità quando si seleziona la modalità luceNaturale
-const sendMQTTMessageNaturalMode = (value) => {
-  const topic = 'sveglia/modalita/luceNaturale';
-  const message =( value);
+const sendMQTTMessageCurrentTime = (value) => {
+  const topic = 'sveglia/CurrentTime';
+  const message =(value).toString();
+
   if (client.connected) {
     client.publish(topic, message, (err) => {
       if (err) {
@@ -31,9 +31,9 @@ const sendMQTTMessageNaturalMode = (value) => {
   }
 };
 
-const sendNaturalMode=(trashold)=>{
+const sendCurrentTime=(curr)=>{
     console.log("inviato");
-    sendMQTTMessageNaturalMode(trashold);
+    sendMQTTMessageCurrentTime(curr);
 }
 
-export {sendNaturalMode};
+export {sendCurrentTime};

@@ -4,7 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { createContext, useState } from 'react';
 import { View,Text} from 'react-native';
 
-import style from './Stile.js';
+import style from './Style.js';
 
 const SliderTemp = ({onValueChange})=>{
     const [displayVal, setDisplayVal] = useState(30);

@@ -1,22 +1,22 @@
 import mqtt from 'mqtt';
 import HomeScreen from '../HomeScreen';
 import React, {createContext,useState,useEffect, Children} from 'react'; 
-const LightContext = createContext();
+const WindowContext = createContext();
 const client = mqtt.connect('ws://192.168.15.17:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
 
-export const LightProvider =({children}) =>{
+export const WindowProvider =({children}) =>{
   //variabili di stato dello switch
-  const[isEnabled, setIsEnabled]=useState(false);
+  const[isEnabledWnd, setIsEnabledWnd]=useState(false);
 
   useEffect(()=>{
-    //Sottoscrizione al topic per ricevere lo stato delle luci
+    //Sottoscrizione al topic per ricevere lo stato della serranda
     client.on('connect',()=>{
       console.log("Connesso a MQTT broker");
-      client.subscribe('sveglia/stato/luci', (err) => {
+      client.subscribe('sveglia/stato/serranda', (err) => {
         if (err) {
           console.error('Errore nella sottoscrizione:', err);
         } else {
-          console.log('Sottoscritto a sveglia/stato/luci');
+          console.log('Sottoscritto a sveglia/stato/serranda');
         }
       });
     });
@@ -29,19 +29,19 @@ export const LightProvider =({children}) =>{
       console.log(' Riconnessione in corso...');
     });
 
-   //Si ricevono messaggi relativi allo stato delle luci
+    //Si ricevono messaggi relativi allo stato della serranda
     client.on('message', (topic, message) => {
       const text = message.toString();
-      if (topic === 'sveglia/stato/luci') {
-        const state = text === '1';
-        setIsEnabled(state);
+      if (topic === 'sveglia/stato/serranda') {
+        const stato = text === '1';
+        setIsEnabledWnd(stato);
       }
     });
   },[]);
 
   //invia il comando di accensione/spegnimento luci
   const sendMQTTMessage = (value) => {
-    const topic = 'sveglia/luci';
+    const topic = 'sveglia/serranda';
     const message = value.toString();
 
     if (client.connected) {
@@ -58,30 +58,30 @@ export const LightProvider =({children}) =>{
   };
 
 
-  const lightOff = () => {
+  const closeWindow = () => {
     sendMQTTMessage(0);
   };
 
-  const lightUp = () => {
+  const openWindow = () => {
     sendMQTTMessage(1);
   };
 
-  const toggleSwitch = () =>{
-    setIsEnabled(prevState => {
+  const toggleSwitchWnd = () =>{
+    setIsEnabledWnd(prevState => {
     const newState = !prevState;
     if(newState == true)
-      lightUp();
+      openWindow();
     else
-      lightOff();
+      closeWindow();
     return newState;})
   }
 
   return (
-    <LightContext.Provider value={{isEnabled, toggleSwitch}}>
+    <WindowContext.Provider value={{isEnabledWnd, toggleSwitchWnd}}>
       {children}
-    </LightContext.Provider>
+    </WindowContext.Provider>
   );
 };
 
-export default LightContext;
+export default WindowContext;
 

@@ -1,10 +1,10 @@
 import mqtt from 'mqtt';
 const client = mqtt.connect('ws://192.168.227.69:9001');
 
-let temperaturaCallbacks=[]; 
-let umiditaCallbacks=[];
-let temperatura=0; 
-let umidita=0;
+let temperatureCallbacks=[]; 
+let humidityCallbacks=[];
+let temperature=0; 
+let humidity=0;
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");
@@ -37,21 +37,21 @@ client.on('reconnect', () => {
 client.on('message', (topic, message) => {
   const text = message.toString();
   if (topic === 'sensore/temperatura') {
-    temperatura = parseFloat(text);
-    temperaturaCallbacks.forEach(cb => cb(temperatura));
+    temperature = parseFloat(text);
+    temperatureCallbacks.forEach(cb => cb(temperature));
   } else if (topic === 'sensore/umidita') {
-    umidita = parseFloat(text);
-    umiditaCallbacks.forEach(cb => cb(umidita));
+    humidity = parseFloat(text);
+    humidityCallbacks.forEach(cb => cb(humidity));
   }
 });
 
 // Funzioni per ottenere l'ultimo messaggio ricevuto per ciascun topic
-export function onTemperaturaChange(callback) {
-  temperaturaCallbacks.push(callback);
-  if (temperatura !== null) callback(temperatura);
+export function onTemperatureChange(callback) {
+  temperatureCallbacks.push(callback);
+  if (temperature !== null) callback(temperature);
 }
 
-export function onUmiditaChange(callback) {
-  umiditaCallbacks.push(callback);
-  if (umidita !== null) callback(umidita);
+export function onHumidityChange(callback) {
+  humidityCallbacks.push(callback);
+  if (humidity !== null) callback(humidity);
 }

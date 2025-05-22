@@ -33,7 +33,7 @@ client.on('message', (topic, message) => {
 });
 
 //Invia un oggetto JScript trasformando in una stringa JSON
-const sendMQTTMessageSveglia = (value) => {
+const sendMQTTMessageAlarm = (value) => {
   const topic = 'sveglia/gestionesveglie/aggiunta';
   const message =JSON.stringify( value);
 
@@ -51,7 +51,7 @@ const sendMQTTMessageSveglia = (value) => {
 };
 
 //Gestisce la rimozione di una sveglia, inviando l'id della sveglia eliminata
-const sendMQTTMessageSvegliaRimozione = (value) => {
+const sendMQTTMessageRemoveAlarm = (value) => {
   const topic = 'sveglia/gestionesveglie/rimozione';
   const message =value.toString();
 
@@ -69,12 +69,12 @@ const sendMQTTMessageSvegliaRimozione = (value) => {
 };
 
 //Invia i dettagli della sveglia
-const inviaSveglia= (sveglia)=>{
-  sendMQTTMessageSveglia(sveglia); 
+const sendAlarm= (alarm)=>{
+  sendMQTTMessageAlarm(alarm); 
 }
 
 //Invia l'id della sveglia da rimuovere
-const cancellaSveglia= (svegliaId)=>{
-  sendMQTTMessageSvegliaRimozione(svegliaId); 
+const deleteAlarm= (alarmId)=>{
+  sendMQTTMessageRemoveAlarm(alarmId); 
 }
-export { inviaSveglia, cancellaSveglia};
+export { sendAlarm, deleteAlarm};
