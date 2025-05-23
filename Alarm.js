@@ -4,30 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import style from './Style';
 import { deleteAlarm } from './services/alarmServices';
 
-export const AlarmContext = createContext();
-
-export const AlarmProvider = ({ children }) => {
-  const [alarms, setAlarms] = useState([]);
-
-//Aggiunge una sveglia alla lista
-  const addAlarm = (newAlarm) => {
-    setAlarms(prev => [...prev, newAlarm]);
-  };
-
-//Rimuove una sveglia dalla lista, mediante l'id
-  const removeAlarm = (id) => {
-    setAlarms(prev => prev.filter(item=> item.id !== id));
-    deleteAlarm(id);
-  };
-
-//Fornisce le funzione di utility 
-  return (
-    <AlarmContext.Provider value={{ alarms, addAlarm, removeAlarm }}>
-      {children}
-    </AlarmContext.Provider>
-  );
-};
-
 const singleAlarm= ({alarm, onDelete})=>{
     const {name, time, date}=alarm; 
     return(

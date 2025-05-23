@@ -37,9 +37,10 @@ export const LightProvider =({children}) =>{
         setIsEnabled(state);
       }
     });
+    
+      //invia il comando di accensione/spegnimento luci
+    
   },[]);
-
-  //invia il comando di accensione/spegnimento luci
   const sendMQTTMessage = (value) => {
     const topic = 'sveglia/luci';
     const message = value.toString();
@@ -56,10 +57,9 @@ export const LightProvider =({children}) =>{
       console.warn('MQTT non connesso, messaggio non inviato');
     }
   };
-
-
+  
   const lightOff = () => {
-    sendMQTTMessage(0);
+      sendMQTTMessage(0);
   };
 
   const lightUp = () => {
