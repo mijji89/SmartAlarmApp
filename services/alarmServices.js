@@ -28,7 +28,7 @@ client.on('reconnect', () => {
 client.on('message', (topic, message) => {
   if (topic === 'sveglia/gestioneSveglie/cancellazione') {
     id = message;
-  removeAlarm(id);
+    removeAlarm(id);
   }
 });
 
