@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView,StyleSheet, Text, View, Button, FlatList, Switch, SafeAreaView,Image} from 'react-native';
 import {useState, useEffect, useContext} from 'react';
-import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
 import style from './Style.js';
 import LightContext from './services/lightServices.js';
 import { onTemperatureChange, onHumidityChange } from './services/weatherServices.js';
 import {sendNaturalMode} from './services/naturalLightServices.js'
 import { sendCurrentTime } from './services/sendTime.js';
-import SingleAlarm, { AlarmContext } from './Alarm.js';
+import SingleAlarm from './Alarm.js';
 import SliderTemp from './Slidertemp.js';
 import WindowContext from './services/windowServices.js';
+import { AlarmContext } from './services/alarmServices.js';
 
 
 

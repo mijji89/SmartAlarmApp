@@ -3,14 +3,14 @@ import { Platform, ScrollView, Text, View, Button, SafeAreaView, TextInput, Swit
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState, useContext, useEffect} from 'react';
 import style from './Style.js';
-import { AlarmContext } from './Alarm.js';
+import AlarmContext from './services/alarmServices.js';
 import { sendAlarm } from './services/alarmServices.js';
 import LightContext from './services/lightServices.js';
 import WindowContext from './services/windowServices.js';
 
 
 const SetAlarm=()=>{
-  const {addAlarm}= useContext(AlarmContext);
+  const {addAlarm,sendAlarm}= useContext(AlarmContext);
   const [alarmname,setInput]= useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
