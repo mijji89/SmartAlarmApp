@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.15.17:9001');
+const client = mqtt.connect('ws://192.168.1.7:9001');
 
 let temperatureCallbacks=[]; 
 let humidityCallbacks=[];

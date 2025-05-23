@@ -1,5 +1,5 @@
 import mqtt from 'mqtt';
-const client = mqtt.connect('ws://192.168.15.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.1.7:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 client.on('connect',()=>{
   console.log("Connesso a MQTT broker");

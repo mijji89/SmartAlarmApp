@@ -2,7 +2,7 @@ import mqtt from 'mqtt';
 import HomeScreen from '../HomeScreen';
 import React, {createContext,useState,useEffect, Children} from 'react'; 
 const WindowContext = createContext();
-const client = mqtt.connect('ws://192.168.15.17:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
+const client = mqtt.connect('ws://192.168.1.7:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
 
 export const WindowProvider =({children}) =>{
   //variabili di stato dello switch
