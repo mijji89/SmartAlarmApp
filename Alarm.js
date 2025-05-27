@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import style from './Style';
 import { deleteAlarm } from './services/alarmServices';
 
+//Costruisce l'elemento "sveglia"
 const singleAlarm= ({alarm, onDelete})=>{
     const {name, time, date}=alarm; 
     return(

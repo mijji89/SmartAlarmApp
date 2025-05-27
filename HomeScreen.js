@@ -4,8 +4,6 @@ import {useState, useEffect, useContext} from 'react';
 import style from './Style.js';
 import LightContext from './services/lightServices.js';
 import { onTemperatureChange, onHumidityChange } from './services/weatherServices.js';
-import {sendNaturalMode} from './services/naturalLightServices.js'
-import { sendCurrentTime } from './services/sendTime.js';
 import SingleAlarm from './Alarm.js';
 import SliderTemp from './Slidertemp.js';
 import WindowContext from './services/windowServices.js';
@@ -22,21 +20,13 @@ const HomeScreen=({navigation})=>{
 
   //Switch serranda
   const {isEnabledWnd,toggleSwitchWnd} = useContext(WindowContext);
+  const{isEnabledNatural,toggleSwitchNatural}=useContext(WindowContext)
 
-//Switch luce naturale
-const [trashold, setTrashold] = useState(30); // valore iniziale
-  const [isEnablednatural, setIsEnablednatural]= useState(false);
-    const toggleSwitchnatural = () => {
-      setIsEnablednatural(prevState => {
-        const newState = !prevState;
-        if(newState == true)
-          sendNaturalMode(sogliaLuminosita);
-        return newState;
-      });
-    }
+  //Switch luce naturale
+  const [treshold, setTreshold] = useState(30); // valore iniziale
 
 
-//Aggiornamento temperatura/umidità
+  //Aggiornamento temperatura/umidità
   const [temperature, setTemperature] = useState(null);
   const [humidity, setHumidity] = useState(null);
   useEffect(() => {
@@ -82,11 +72,11 @@ const [trashold, setTrashold] = useState(30); // valore iniziale
       <Text style={style.smallerTitle}>Modalità luce naturale</Text>
       <Text style={style.prinsubtitle}>La modalità luce naturale farà alzare e abbassare la serranda in base alla luce esterna</Text>
       <View style={style.row}>
-          <Switch trackColor={{ false: 'gray', true:'orange'}} onValueChange={toggleSwitchnatural} value={isEnablednatural} />
-          <Text style={style.subtitle}>{isEnablednatural? '☀️Modalità attiva': '🌙Modalità disattivata'}</Text>
+          <Switch trackColor={{ false: 'gray', true:'orange'}} onValueChange={toggleSwitchNatural} value={isEnabledNatural} />
+          <Text style={style.subtitle}>{isEnabledNatural? '☀️Modalità attiva': '🌙Modalità disattivata'}</Text>
       </View>
       <Text style={style.prinsubtitle}>Inserire il valore di luminosità per cui l'ambiente è considerato luminoso:</Text>
-      <SliderTemp onValueChange={setTrashold}/>
+      <SliderTemp onValueChange={setTreshold}/>
     </SafeAreaView>
     </ScrollView>
   );

@@ -1,7 +1,7 @@
 import mqtt from 'mqtt';
 import React, {createContext,useState,useEffect} from 'react'; 
 import singleAlarm from '../Alarm';
-const client = mqtt.connect('ws://192.168.1.7:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.223.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 export const AlarmContext = createContext();
 
@@ -60,21 +60,20 @@ export const AlarmProvider = ({ children }) => {
     sendMQTTMessageRemoveAlarm(alarmId); 
   };
 
-  //Rimuove una sveglia dalla lista, mediante l'id
+  //Rimuove una sveglia dalla lista, mediante l'id - rimozione tramite tasto dell'app
   const removeAlarm = (id) => {
     setAlarms(prev => prev.filter(item=> item.id !== id));
     deleteAlarm(id);
     console.log("sveglia rimossa")
   };
 
-  // 
+  // Rimuove una sveglia dalla lista, una volta ricevuto l'id - rimozione tramite dispositivo fisico
   const removeAlarmReceived= (id) =>{
     setAlarms(prev => prev.filter(item=> item.id.toString() !== id.toString()));
     console.log("sveglia rimossa")
   };
 
   useEffect(()=>{
-
     client.on('connect',()=>{
       console.log("Connesso a MQTT broker");
       //Sottoscrizione
@@ -86,7 +85,6 @@ export const AlarmProvider = ({ children }) => {
         }
       });
     })
-
     
     //Riceve l'ID della sveglia che è suonata per poi rimuoverla
     client.on('message', (topic, message) => {
@@ -106,10 +104,7 @@ export const AlarmProvider = ({ children }) => {
 
   },[]);
 
-
-
-
-  //Fornisce le funzione di utility 
+  //Fornisce le funzioni di utility 
   return (
     <AlarmContext.Provider value={{ alarms, addAlarm, removeAlarm, sendAlarm,deleteAlarm, removeAlarmReceived }}>
       {children}

@@ -17,7 +17,7 @@ const SetAlarm=()=>{
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [nextID, setnextID]= useState(1); 
 
-//Permette di selezionare una data giorno/mese/anno
+  //Permette di selezionare una data giorno/mese/anno
   const onDateChange = (event, selectedDate) => {
   setShowDatePicker(Platform.OS === 'ios'); 
     if (selectedDate) {
@@ -27,7 +27,7 @@ const SetAlarm=()=>{
     }
   };
 
-//Permette di selezionare un orario ore:minuti
+  //Permette di selezionare un orario ore:minuti
   const onTimeChange = (event, selectedTime) => {
     setShowTimePicker(Platform.OS === 'ios');
     if (selectedTime) {
@@ -38,7 +38,7 @@ const SetAlarm=()=>{
     }
   };
 
-//Crea una nuova sveglia, e invia i dati inseriti al dispositivo (aggiunge la sveglia alla lista in homepage)
+  //Crea una nuova sveglia, e invia i dati inseriti al dispositivo (aggiunge la sveglia alla lista in homepage)
   const Add = () => {
     let melodyy;
     if (isEnabledS1)
@@ -51,38 +51,28 @@ const SetAlarm=()=>{
       date: date.toDateString(),
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       melody: melodyy,// 1 la prima suoneria, 2 la seconda
-      lights: isEnabledal, 
-      window: isEnabledwndal
+      lights: isEnabledal,
     };
     addAlarm(newAlarm);
     sendAlarm(newAlarm);
     setnextID(prevID => prevID+1);
   };
 
- //Scelta prima suoneria
+  //Scelta prima suoneria
   const [isEnabledS1, setIsEnabledS1]= useState(false);
   const toggleSwitchS1 = () => {
       setIsEnabledS1(true);
       setIsEnabledS2(false);
   };
 
-//Scelta seconda suoneria
+  //Scelta seconda suoneria
   const [isEnabledS2, setIsEnabledS2]= useState(false);
   const toggleSwitchS2 = () => {
       setIsEnabledS2(true);
       setIsEnabledS1(false);
   };
   
-//Comanda la serranda (comando legato alla sveglia)
-  const [isEnabledwndal, setIsEnabledwndal]= useState(false);
-    const toggleSwitchwndal = () => {
-      setIsEnabledwndal(prevState => {
-        const newState = !prevState;
-        return newState;
-      });
-    }
-
-
+  //Switch relativo all'accensione delle luci per una determinata sveglia
   const [isEnabledal, setIsEnabledal]= useState(false);
   const toggleSwitchal = () => {
     setIsEnabledal(prevState => {
@@ -139,17 +129,13 @@ const SetAlarm=()=>{
       <Text style={style.subtitle}>⚠️Scegliere almeno una suoneria!</Text>
       <View style={style.row}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS1} value={isEnabledS1} />
-          <Text style={style.subtitle}>{isEnabledS1? 'Suoneria Mario Bros attiva': 'Suoneria Mario Bros disattiva'}</Text>
+          <Text style={style.subtitle}>{isEnabledS1? 'Suoneria 1 attivata': 'Suoneria 1 disattivata'}</Text>
       </View>
           <View style={style.row}>
           <Switch trackColor={{ false: 'black', true:'blue'}} onValueChange={toggleSwitchS2} value={isEnabledS2} />
-          <Text style={style.subtitle}>{isEnabledS2? 'Suoneria Star Wars attiva': 'Suoneria Star Wars disattiva'}</Text>
+          <Text style={style.subtitle}>{isEnabledS2? 'Suoneria 2 attivata': 'Suoneria 2 disattivata'}</Text>
       </View>
       <Text style={style.prinsubtitle}>Stanza:</Text>
-       <View style={style.row}>
-          <Switch trackColor={{ false: 'black', true:'lightgreen'}} onValueChange={toggleSwitchwndal} value={isEnabledwndal} />
-          <Text style={style.subtitle}>{isEnabledwndal? '🏞️Apri serranda': 'Chiudi serranda🪟'}</Text>
-      </View>
             <View style={style.row}>
         <Switch trackColor={{ false: 'black', true:'lightblue'}} onValueChange={toggleSwitchal} value={isEnabledal} />
         <Text style={style.subtitle}>{isEnabledal? '💡Accendi luci': 'Spegni luci🌙'}</Text>

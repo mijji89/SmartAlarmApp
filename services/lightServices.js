@@ -2,7 +2,7 @@ import mqtt from 'mqtt';
 import HomeScreen from '../HomeScreen';
 import React, {createContext,useState,useEffect, Children} from 'react'; 
 const LightContext = createContext();
-const client = mqtt.connect('ws://192.168.1.7:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
+const client = mqtt.connect('ws://192.168.223.17:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
 
 export const LightProvider =({children}) =>{
   //variabili di stato dello switch
@@ -36,11 +36,10 @@ export const LightProvider =({children}) =>{
         const state = text === '1';
         setIsEnabled(state);
       }
-    });
-    
-      //invia il comando di accensione/spegnimento luci
-    
+    });   
   },[]);
+
+   //invia il comando di accensione/spegnimento luci
   const sendMQTTMessage = (value) => {
     const topic = 'sveglia/luci';
     const message = value.toString();
@@ -66,6 +65,7 @@ export const LightProvider =({children}) =>{
     sendMQTTMessage(1);
   };
 
+  //Gestione dello switch nell'HomeScreen
   const toggleSwitch = () =>{
     setIsEnabled(prevState => {
     const newState = !prevState;
@@ -76,6 +76,7 @@ export const LightProvider =({children}) =>{
     return newState;})
   }
 
+  //Si forniscono le funzioni di utility per gestire le luci
   return (
     <LightContext.Provider value={{isEnabled, toggleSwitch}}>
       {children}
