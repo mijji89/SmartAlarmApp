@@ -1,7 +1,7 @@
 import mqtt from 'mqtt';
 import React, {createContext,useState,useEffect} from 'react'; 
 import singleAlarm from '../Alarm';
-const client = mqtt.connect('ws://192.168.223.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
+const client = mqtt.connect('ws://192.168.9.17:9001'); //CAMBIARE IP con quello del pc connesso alla rete mobile!!
 
 export const AlarmContext = createContext();
 

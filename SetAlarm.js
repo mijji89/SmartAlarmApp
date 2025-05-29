@@ -52,6 +52,7 @@ const SetAlarm=()=>{
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       melody: melodyy,// 1 la prima suoneria, 2 la seconda
       lights: isEnabledal,
+      window: isEnabledwindow,
     };
     addAlarm(newAlarm);
     sendAlarm(newAlarm);
@@ -80,6 +81,16 @@ const SetAlarm=()=>{
       return newState;
     });
   }
+
+    //Sceglie l'apertura della serranda 
+    const [isEnabledwindow, setIsEnabledwindow]= useState(false);
+    const toggleSwitchwindow = () => {
+        setIsEnabledwindow(prevState =>{
+          const newState=!prevState;
+          return newState; 
+        })
+    };
+
 
 
   return(
@@ -136,9 +147,13 @@ const SetAlarm=()=>{
           <Text style={style.subtitle}>{isEnabledS2? 'Suoneria 2 attivata': 'Suoneria 2 disattivata'}</Text>
       </View>
       <Text style={style.prinsubtitle}>Stanza:</Text>
-            <View style={style.row}>
+      <View style={style.row}>
         <Switch trackColor={{ false: 'black', true:'lightblue'}} onValueChange={toggleSwitchal} value={isEnabledal} />
         <Text style={style.subtitle}>{isEnabledal? '💡Accendi luci': 'Spegni luci🌙'}</Text>
+      </View>
+      <View style={style.row}>
+        <Switch trackColor={{ false: 'black', true:'lightblue'}} onValueChange={toggleSwitchwindow} value={isEnabledwindow} />
+        <Text style={style.subtitle}>{isEnabledwindow? '🏠Apri serranda': 'Chiudi serranda🪟'}</Text>
       </View>
     </SafeAreaView>
     </ScrollView>
