@@ -2,7 +2,7 @@ import mqtt from 'mqtt';
 import HomeScreen from '../HomeScreen';
 import React, {createContext,useState,useEffect, Children} from 'react'; 
 const WindowContext = createContext();
-const client = mqtt.connect('ws://192.168.9.17:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
+const client = mqtt.connect('ws://192.168.223.17:9001');//CAMBIARE IP con quello del pc connesso alla rete mobile
 import SliderTemp from '../Slidertemp';
 
 export const WindowProvider =({children}) =>{
@@ -23,6 +23,13 @@ export const WindowProvider =({children}) =>{
           console.log('Sottoscritto a sveglia/stato/serranda');
         }
       });
+      client.subscribe('modalitaNaturale/stato/serranda', (err) => {
+        if (err) {
+          console.error('Errore nella sottoscrizione:', err);
+        } else {
+          console.log('Sottoscritto a modalitaNaturale/stato/serranda');
+        }
+      });
     });
 
     client.on('error',(err)=>{
@@ -37,6 +44,10 @@ export const WindowProvider =({children}) =>{
     client.on('message', (topic, message) => {
       const text = message.toString();
       if (topic === 'sveglia/stato/serranda') {
+        const stato = text === '1';
+        setIsEnabledWnd(stato);
+      }
+      else if(topic === 'modalitaNaturale/stato/serranda'){
         const stato = text === '1';
         setIsEnabledWnd(stato);
       }

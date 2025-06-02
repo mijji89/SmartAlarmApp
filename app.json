@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "provaApp",
-    "slug": "provaApp",
+    "name": "TicchèTàcch'",
+    "slug": "TiccheTacch",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
